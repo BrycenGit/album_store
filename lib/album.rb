@@ -1,6 +1,6 @@
 class Album
   attr_reader :id, :name
-
+  attr_accessor :name
   @@albums = {}
   @@total_rows = 0
 
@@ -31,9 +31,10 @@ class Album
   end
 
   def update(name)
-    @name = name
+    self.name = name
+    @@albums[self.id] = Album.new(self.name, self.id)
   end
-
+  
   def delete
     @@albums.delete(self.id)
   end
