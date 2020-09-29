@@ -9,6 +9,19 @@ class Album
     @id = id || @@total_rows +=1
   end
 
+  def self.search(name)
+    @@albums.each_pair do |array|
+      if name.downcase == array[1].name.downcase
+        return array[1]
+      end
+    end
+  end
+
+  def self.sort
+    array_of_albums = @@albums.values
+    return array_of_albums.sort_by {|obj| obj.name}
+  end
+
   def self.all
     @@albums.values()
   end
