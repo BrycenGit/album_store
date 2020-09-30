@@ -1,0 +1,9 @@
+<h4>Album Name: <%= @album.name %></h4>
+
+<form action="/albums/sold/<%= @album.id() %>" method="post">
+  <input name="_method" type="hidden" value="delete">
+
+  <button type="submit">Delete album</button>
+</form>
+
+<a href="/albums/sold">Return to sold list</a><br>

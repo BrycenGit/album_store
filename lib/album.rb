@@ -3,6 +3,7 @@ class Album
   attr_accessor :name
   @@albums = {}
   @@total_rows = 0
+  @@sold_albums = {}
 
   def initialize(name, id)
     @name = name
@@ -43,6 +44,10 @@ class Album
     @@albums[id]
   end
 
+  def self.find_sold(id)
+    @@sold_albums[id]
+  end
+
   def update(name)
     self.name = name
     @@albums[self.id] = Album.new(self.name, self.id)
@@ -50,6 +55,18 @@ class Album
   
   def delete
     @@albums.delete(self.id)
+  end
+  def delete_sold
+    @@sold_albums.delete(self.id)
+  end
+
+  def sold
+    @@sold_albums[self.id] = Album.new(self.name, self.id)
+    @@albums.delete(self.id)
+  end
+
+  def self.sold
+    @@sold_albums.values
   end
 end
 

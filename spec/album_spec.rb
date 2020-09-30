@@ -88,6 +88,17 @@ describe '#Album' do
       album.save()
       album2 = Album.new("Blue", nil)
       album2.save()
+      album.sold
+      expect(Album.sold).to(eq([album2, album]))
+    end
+  end
+
+  describe('#sold') do
+    it("will add album to sold_albums") do
+      album = Album.new("Giant Steps", nil)
+      album.save()
+      album2 = Album.new("Blue", nil)
+      album2.save()
       expect(Album.sort).to(eq([album2, album]))
     end
   end
