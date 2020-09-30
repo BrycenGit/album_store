@@ -1,6 +1,7 @@
 require('sinatra')
 require('sinatra/reloader')
 require('./lib/album')
+require('./lib/song')
 require('pry')
 also_reload('lib/**/*.rb')
 
@@ -28,6 +29,7 @@ get('/albums/:id') do
   @album = Album.find(params[:id].to_i())
   erb(:album)
 end
+
 get('/albums/sold/:id') do
   @album = Album.find_sold(params[:id].to_i())
   erb(:sold_album)
@@ -72,9 +74,41 @@ delete('/albums/:id') do
   @albums = Album.sort()
   erb(:albums)
 end
+
 delete('/albums/sold/:id') do
   @album = Album.find_sold(params[:id].to_i())
   @album.delete_sold()
   @sold_albums = Album.sold()
   erb(:sold)
 end
+
+  # Get the detail for a specific song such as lyrics and songwriters.
+get('/albums/:id/songs/:song_id') do
+  @song = Song.find(params[:song_id].to_i())
+  erb(:song)
+end
+
+
+post('/albums/:id/songs') do
+  @album = Album.find(params[:id].to_i())
+  song = Song.new(params[:song_name], @album.id, nil)
+  song.save()
+  erb(:album)
+end
+
+# Edit a song and then route back to the album view.
+patch('/albums/:id/songs/:song_id') do
+  @album = Album.find(params[:id].to_i())
+  song = Song.find(params[:song_id].to_i())
+  song.update(params[:name], @album.id)
+  erb(:album)
+end
+
+# Delete a song and then route back to the album view.
+delete('/albums/:id/songs/:song_id') do
+  song = Song.find(params[:song_id].to_i())
+  song.delete
+  @album = Album.find(params[:id].to_i())
+  erb(:album)
+end
+
