@@ -68,6 +68,10 @@ class Album
   def self.sold
     @@sold_albums.values
   end
+
+  def songs
+    Song.find_by_album(self.id)
+  end
 end
 
 
